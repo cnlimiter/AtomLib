@@ -16,6 +16,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'maven-publish'
 
 group = 'cn.evolvefield.mods'
 version = '1.18.2-1.0.0'
@@ -118,7 +119,7 @@ minecraft {
 mixin {
     add sourceSets.main, "AtomLib.refmap.json"
 
-    config "AtomLib.mixins.json"
+    config "atomlib.mixins.json"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -136,7 +137,6 @@ dependencies {
 
 jar {
     finalizedBy 'reobfJar'
-    classifier = 'universal'
     from file("LICENSE")
     manifest {
         attributes([
@@ -150,13 +150,18 @@ jar {
         ])
     }
 }
-
-task srcJar(type: Jar) {
-    build.dependsOn it
-    from sourceSets.main.allSource
-    classifier = 'sources'
-    from file("LICENSE")
-}
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
 }
