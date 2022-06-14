@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.atomlib.utils;
 
 import cn.evolvefield.mods.atomlib.AtomLib;
+import cn.evolvefield.mods.atomlib.Static;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -110,7 +111,7 @@ public class JsonUtils {
             if (print_err) {
                 e.printStackTrace();
             }
-            AtomLib.LOGGER.info("File '" + file + "' seems to be missing, or has invalid format.");
+            Static.LOGGER.info("File '" + file + "' seems to be missing, or has invalid format.");
             return def;
         }
     }

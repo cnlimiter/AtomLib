@@ -2,6 +2,7 @@ package cn.evolvefield.mods.atomlib.utils;
 
 
 import cn.evolvefield.mods.atomlib.AtomLib;
+import cn.evolvefield.mods.atomlib.Static;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -41,7 +42,7 @@ public class FileUtil {
 
     public static void streamResourceToDisk(URL inputUrl, File filePath) throws IOException {
         if (inputUrl == null) {
-            AtomLib.LOGGER.error("源文件夹是空的: " + filePath.toString());
+            Static.LOGGER.error("源文件夹是空的: " + filePath.toString());
         } else {
             FileUtils.copyURLToFile(inputUrl, filePath);
         }
