@@ -28,7 +28,16 @@ public class FileUtil {
         }
         return folder;
     }
-
+    public static File checkFolder(File folder) {
+        if (!folder.isDirectory()) {
+            try {
+                return Files.createDirectories(folder.toPath()).toFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return folder;
+    }
 
     public static void streamResourceToDisk(URL inputUrl, File filePath) throws IOException {
         if (inputUrl == null) {
@@ -36,6 +45,11 @@ public class FileUtil {
         } else {
             FileUtils.copyURLToFile(inputUrl, filePath);
         }
+    }
+
+
+    public static File createSubFile(String fileName, File parrentFolder) {
+        return new File(parrentFolder.getAbsolutePath() + "/" + fileName);
     }
 
 
