@@ -1,14 +1,13 @@
-package cn.evolvefield.mods.atom.lib.utils;
+package cn.evolvefield.mods.atom.lib.utils.json;
 
-import cn.evolvefield.mods.atom.lib.Static;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import cn.evolvefield.mods.atom.lib.utils.LogUtil;
+import com.google.gson.*;
 
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -17,7 +16,10 @@ import java.util.Date;
  * Date: 2022/5/8 21:58
  * Version: 1.0
  */
-public class JsonUtils {
+public class JsonUtil {
+
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     public static String getStringOr(String pKey, JsonObject pJson, String pDefaultValue) {
         JsonElement jsonelement = pJson.get(pKey);
         if (jsonelement != null) {
@@ -110,8 +112,96 @@ public class JsonUtils {
             if (print_err) {
                 e.printStackTrace();
             }
-            Static.LOGGER.info("File '" + file + "' seems to be missing, or has invalid format.");
+            LogUtil.logInfo("File '" + file + "' seems to be missing, or has invalid format.");
             return def;
         }
+    }
+
+    /**
+     * @param file the file to be parsed into json
+     * @return JsonObject from file or a new JsonObject if there are errors in previous/super methods
+     */
+    public static JsonObject get(File file) {
+        JsonElement e = read(file, false);
+        if (e == null || !e.isJsonObject()) {
+            return new JsonObject();
+        } else return e.getAsJsonObject();
+    }
+
+    /**
+     * Writes a JsonObject into the specified file (using Gson Pretty Printing)
+     *
+     * @param file  target file
+     * @param obj   JsonElement to be written into the file
+     * @param check check if the parent file/folder exists
+     */
+    public static void write(File file, JsonElement obj, boolean check) {
+        try {
+            if (check) {
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
+            }
+            FileWriter fw = new FileWriter(file);
+            fw.write(gson.toJson(obj));
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Writes a JsonObject into the specified file (using Gson Pretty Printing)
+     *
+     * @param file target file
+     * @param obj  JsonElement to be written into the file
+     */
+    public static void write(File file, JsonElement obj) {
+        write(file, obj, false);
+    }
+
+    /**
+     * @param file   File to be updated
+     * @param string Target value/object
+     * @param value
+     */
+    public static void update(File file, String string, String value) {
+        JsonObject obj = get(file);
+        obj.addProperty(string, value);
+        write(file, obj);
+    }
+
+    /**
+     * @param file   File to be updated
+     * @param string Target value/object
+     * @param value
+     */
+    public static void update(File file, String string, boolean value) {
+        JsonObject obj = get(file);
+        obj.addProperty(string, value);
+        write(file, obj);
+    }
+
+    /**
+     * @param file   File to be updated
+     * @param string Target value/object
+     * @param value
+     */
+    public static void update(File file, String string, Number value) {
+        JsonObject obj = get(file);
+        obj.addProperty(string, value);
+        write(file, obj);
+    }
+
+    /**
+     * @param file    File to be updated
+     * @param string  Target value/object
+     * @param element
+     */
+    public static void update(File file, String string, JsonElement element) {
+        JsonObject obj = get(file);
+        obj.add(string, element);
+        write(file, obj);
     }
 }
