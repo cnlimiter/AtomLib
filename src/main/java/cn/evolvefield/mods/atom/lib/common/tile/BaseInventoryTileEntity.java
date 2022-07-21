@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.atom.lib.common.tile;
 
-import cn.evolvefield.mods.atom.lib.utils.item.ItemStackWrapper;
+import cn.evolvefield.mods.atom.lib.common.item.ItemStackWrapper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

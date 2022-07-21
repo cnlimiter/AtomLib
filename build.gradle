@@ -117,7 +117,7 @@ minecraft {
 }
 
 mixin {
-    add sourceSets.main, "AtomLib.refmap.json"
+    add sourceSets.main, "atomlib.refmap.json"
 
     config "atomlib.mixins.json"
 }

@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.atom.lib.common.slot;
 
-import cn.evolvefield.mods.atom.lib.utils.item.ItemStackWrapper;
+import cn.evolvefield.mods.atom.lib.common.item.ItemStackWrapper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;

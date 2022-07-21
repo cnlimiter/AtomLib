@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.atom.lib.utils.item;
+package cn.evolvefield.mods.atom.lib.common.item;
 
 import cn.evolvefield.mods.atom.lib.utils.NBTUtil;
 import net.minecraft.nbt.NbtUtils;
@@ -49,7 +49,7 @@ public class StackUtil {
     }
 
     /**
-     * 检查是否可以将 stack2 添加到 stack1
+     * 检查是否可以将 stack2 合并到 stack1
      *
      * @param stack1 the current stack
      * @param stack2 the additional stack

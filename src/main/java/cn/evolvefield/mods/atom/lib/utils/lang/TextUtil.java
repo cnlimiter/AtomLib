@@ -6,7 +6,7 @@ import net.minecraft.Util;
 import static net.minecraft.ChatFormatting.*;
 
 /**
- * Description:
+ * Description:闪动字符
  * Author: cnlimiter
  * Date: 2022/4/21 15:33
  * Version: 1.0

@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.atom.lib.utils;
 
 
-import cn.evolvefield.mods.atom.lib.Static;
+import cn.evolvefield.mods.atom.lib.AtomLib;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -28,28 +28,14 @@ public class FileUtil {
         }
         return folder;
     }
-    public static File checkFolder(File folder) {
-        if (!folder.isDirectory()) {
-            try {
-                return Files.createDirectories(folder.toPath()).toFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return folder;
-    }
+
 
     public static void streamResourceToDisk(URL inputUrl, File filePath) throws IOException {
         if (inputUrl == null) {
-            Static.LOGGER.error("源文件夹是空的: " + filePath.toString());
+            AtomLib.LOGGER.error("源文件夹是空的: " + filePath.toString());
         } else {
             FileUtils.copyURLToFile(inputUrl, filePath);
         }
-    }
-
-
-    public static File createSubFile(String fileName, File parrentFolder) {
-        return new File(parrentFolder.getAbsolutePath() + "/" + fileName);
     }
 
 

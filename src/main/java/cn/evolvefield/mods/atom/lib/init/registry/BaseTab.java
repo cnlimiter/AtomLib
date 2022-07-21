@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2022/3/31 10:36
  * Version: 1.0
  */
-public class ModTab extends CreativeModeTab {
+public class BaseTab extends CreativeModeTab {
 
     private final Item iconStack;
 
-    public ModTab(String labelName, Item icon) {
+    public BaseTab(String labelName, Item icon) {
         super(labelName);
         this.iconStack = icon;
     }

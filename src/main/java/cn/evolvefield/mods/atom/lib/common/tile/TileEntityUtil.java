@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.atom.lib.utils;
+package cn.evolvefield.mods.atom.lib.common.tile;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;

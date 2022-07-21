@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.atom.lib.client.model;
 
-import cn.evolvefield.mods.atom.lib.Static;
+import cn.evolvefield.mods.atom.lib.AtomLib;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
@@ -30,7 +30,7 @@ public class BaseModelCache {
     public static BakedModel getBakedModel(ModelBakeEvent evt, ResourceLocation rl) {
         BakedModel bakedModel = evt.getModelRegistry().get(rl);
         if (bakedModel == null) {
-            Static.LOGGER.error("Baked model doesn't exist: {}", rl.toString());
+            AtomLib.LOGGER.error("Baked model doesn't exist: {}", rl.toString());
             return evt.getModelManager().getMissingModel();
         }
         return bakedModel;

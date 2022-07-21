@@ -6,7 +6,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 
 /**
- * Description:
+ * Description:本地化
  * Author: cnlimiter
  * Date: 2022/4/2 12:44
  * Version: 1.0

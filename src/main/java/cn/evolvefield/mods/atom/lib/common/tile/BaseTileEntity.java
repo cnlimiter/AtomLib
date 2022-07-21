@@ -1,6 +1,5 @@
 package cn.evolvefield.mods.atom.lib.common.tile;
 
-import cn.evolvefield.mods.atom.lib.utils.TileEntityUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
