@@ -19,7 +19,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'maven-publish'
 
 group = 'cn.evolvefield.mods'
-version = '1.18.2-1.0.1'
+version = '1.18.2-1.0.2'
 
 java {
     archivesBaseName = 'AtomLib-forge'
