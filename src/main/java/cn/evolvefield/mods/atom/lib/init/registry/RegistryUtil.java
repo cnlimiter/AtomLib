@@ -1,6 +1,10 @@
 package cn.evolvefield.mods.atom.lib.init.registry;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -59,5 +63,8 @@ public class RegistryUtil {
         reg.register(thing.setRegistryName(name));
     }
 
+    public static <T extends ParticleOptions> void registerParticleFactory(ParticleType<T> particleTypeRO, ParticleEngine.SpriteParticleRegistration<T> factory) {
+        Minecraft.getInstance().particleEngine.register(particleTypeRO, factory);
+    }
 
 }

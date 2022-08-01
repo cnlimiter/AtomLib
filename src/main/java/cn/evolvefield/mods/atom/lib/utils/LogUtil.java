@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.atom.lib.utils;
 
-import cn.evolvefield.mods.atom.lib.Static;
+import cn.evolvefield.mods.atom.lib.AtomLib;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,13 +25,13 @@ import java.util.zip.Deflater;
  */
 public class LogUtil {
     public static void log(Level loggingLevel, String message, Object... args) {
-        Static.LOGGER.log(loggingLevel, message, args);
+        AtomLib.LOGGER.log(loggingLevel, message, args);
 
     }
 
     public static void log(Level loggingLevel, String message, Throwable throwable) {
 
-        Static.LOGGER.log(loggingLevel, message, throwable);
+        AtomLib.LOGGER.log(loggingLevel, message, throwable);
 
     }
 

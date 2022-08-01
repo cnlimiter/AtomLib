@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * Date: 2022/4/2 12:57
  * Version: 1.0
  */
-public abstract class IPacket<T extends IPacket<T>> {
+public abstract class IPacket<T> {
 
     public IPacket() {
     }

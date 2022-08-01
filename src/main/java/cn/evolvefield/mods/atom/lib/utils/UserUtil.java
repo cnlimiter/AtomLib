@@ -1,5 +1,7 @@
 package cn.evolvefield.mods.atom.lib.utils;
 
+import cn.evolvefield.mods.atom.lib.AtomLib;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.server.level.ServerPlayer;
@@ -8,9 +10,12 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class UserUtil {
@@ -21,6 +26,8 @@ public class UserUtil {
         return DEFAULT_UUID.equals(uuid);
     }
 
+    public static final GameProfile gameProfile = new GameProfile(UUID.nameUUIDFromBytes("atomlib.common".getBytes(StandardCharsets.UTF_8)), "[AtomFake]");
+    private static final List<UUID> warnedFails = new ArrayList<>();
 
     public static @Nullable
     ServerPlayer getPlayer(UUID uuid) {
@@ -89,5 +96,24 @@ public class UserUtil {
             }
         }
         return result;
+    }
+
+    @Nonnull
+    public static String getLastKnownUsername(@Nullable UUID uuid) {
+        if (uuid == null) {
+            return "<???>";
+        }
+        String ret = UsernameCache.getLastKnownUsername(uuid);
+        if (ret == null && !warnedFails.contains(uuid) && EffectiveSide.get().isServer()) { // see if MC/Yggdrasil knows about it?!
+            Optional<GameProfile> gp = ServerLifecycleHooks.getCurrentServer().getProfileCache().get(uuid);
+            if (gp.isPresent()) {
+                ret = gp.get().getName();
+            }
+        }
+        if (ret == null && !warnedFails.contains(uuid)) {
+            AtomLib.LOGGER.warn("Failed to retrieve username for UUID {}, you might want to add it to the JSON cache", uuid);
+            warnedFails.add(uuid);
+        }
+        return ret == null ? "<" + uuid + ">" : ret;
     }
 }
