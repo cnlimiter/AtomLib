@@ -2,6 +2,10 @@ package cn.evolvefield.mods.atom.lib.utils.misc;
 
 import java.util.function.Supplier;
 
+/**
+ * @param <T> The type of value that should be returned
+ * @author Tapio
+ */
 public class Try<T> {
     private final Supplier<T> sup;
 
