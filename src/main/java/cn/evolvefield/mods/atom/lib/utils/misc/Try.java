@@ -13,10 +13,17 @@ public class Try<T> {
         this.sup = sup;
     }
 
+    /**
+     * @return Directly returns the value provided by the supplier, throwables may appear.
+     */
     public T get() {
         return sup.get();
     }
 
+    /**
+     * @param defaultValue The default value to return if exception appeared while getting the exact value.
+     * @return The exact value if no exceptions happen, or else the default one.
+     */
     public T getOrElse(T defaultValue) {
         T value;
         try {
