@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.atom.lib.utils;
+package cn.evolvefield.mods.atom.lib.utils.misc;
 
 
 import cn.evolvefield.mods.atom.lib.AtomLib;

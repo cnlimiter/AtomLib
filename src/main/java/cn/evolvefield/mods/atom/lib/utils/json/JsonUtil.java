@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.atom.lib.utils.json;
 
-import cn.evolvefield.mods.atom.lib.utils.LogUtil;
+import cn.evolvefield.mods.atom.lib.utils.misc.LogUtil;
 import com.google.gson.*;
 
 import javax.annotation.Nullable;
