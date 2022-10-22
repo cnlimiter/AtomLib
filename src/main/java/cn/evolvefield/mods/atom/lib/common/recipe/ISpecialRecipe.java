@@ -47,8 +47,8 @@ public interface ISpecialRecipe extends Recipe<Container> {
 
         for (int i = 0; i < remaining.size(); ++i) {
             ItemStack stack = inventory.getStackInSlot(i);
-            if (stack.hasContainerItem()) {
-                remaining.set(i, stack.getContainerItem());
+            if (stack.hasCustomHoverName()) {
+                remaining.set(i, stack.getCraftingRemainingItem());
             }
         }
 
