@@ -19,7 +19,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'maven-publish'
 
 group = 'cn.evolvefield.mods'
-version = '1.18.2-1.0.4'
+version = '1.19.2-1.0.4'
 
 java {
     archivesBaseName = 'AtomLib-forge'
@@ -27,7 +27,7 @@ java {
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.07.17-1.18.2'
+    mappings channel: 'parchment', version: '2022.10.16-1.19.2'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -130,7 +130,7 @@ repositories {
 
 dependencies {
 
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.68'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.1.43'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
