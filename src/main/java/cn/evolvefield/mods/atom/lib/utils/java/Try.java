@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.atom.lib.utils.misc;
+package cn.evolvefield.mods.atom.lib.utils.java;
 
 import java.util.function.Supplier;
 

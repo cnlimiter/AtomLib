@@ -25,13 +25,13 @@ import java.util.zip.Deflater;
  */
 public class LogUtil {
     public static void log(Level loggingLevel, String message, Object... args) {
-        AtomLib.LOGGER.log(loggingLevel, message, args);
+        AtomLib.LOG.log(loggingLevel, message, args);
 
     }
 
     public static void log(Level loggingLevel, String message, Throwable throwable) {
 
-        AtomLib.LOGGER.log(loggingLevel, message, throwable);
+        AtomLib.LOG.log(loggingLevel, message, throwable);
 
     }
 

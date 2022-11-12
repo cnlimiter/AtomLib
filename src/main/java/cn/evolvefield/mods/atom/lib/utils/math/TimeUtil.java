@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.atom.lib.utils;
+package cn.evolvefield.mods.atom.lib.utils.math;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;

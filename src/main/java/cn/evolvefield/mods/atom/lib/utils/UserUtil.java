@@ -111,7 +111,7 @@ public class UserUtil {
             }
         }
         if (ret == null && !warnedFails.contains(uuid)) {
-            AtomLib.LOGGER.warn("Failed to retrieve username for UUID {}, you might want to add it to the JSON cache", uuid);
+            AtomLib.LOG.warn("Failed to retrieve username for UUID {}, you might want to add it to the JSON cache", uuid);
             warnedFails.add(uuid);
         }
         return ret == null ? "<" + uuid + ">" : ret;

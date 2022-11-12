@@ -13,8 +13,8 @@ import net.minecraft.world.item.ItemStack;
 public class StackUtil {
     public static ItemStack withSize(ItemStack stack, int size, boolean container) {
         if (size <= 0) {
-            if (container && stack.hasContainerItem()) {
-                return stack.getContainerItem();
+            if (container && stack.hasCraftingRemainingItem()) {
+                return stack.getCraftingRemainingItem();
             } else {
                 return ItemStack.EMPTY;
             }

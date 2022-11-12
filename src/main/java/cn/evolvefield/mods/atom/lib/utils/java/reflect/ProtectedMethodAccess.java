@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.atom.lib.utils.reflect;
+package cn.evolvefield.mods.atom.lib.utils.java.reflect;
 
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;

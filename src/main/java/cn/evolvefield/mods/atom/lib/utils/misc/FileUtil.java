@@ -30,13 +30,5 @@ public class FileUtil {
     }
 
 
-    public static void streamResourceToDisk(URL inputUrl, File filePath) throws IOException {
-        if (inputUrl == null) {
-            AtomLib.LOGGER.error("源文件夹是空的: " + filePath.toString());
-        } else {
-            FileUtils.copyURLToFile(inputUrl, filePath);
-        }
-    }
-
 
 }

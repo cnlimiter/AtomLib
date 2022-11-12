@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "atomlib.refmap.json",
   "mixins": [
+    "PackRepositoryMixin",
+    "RegistryManagerAccessor"
   ],
   "client": [
   ],

@@ -19,13 +19,13 @@ description = '''
 [[dependencies.atomlib]] #optional
 modId = "forge" #mandatory
 mandatory = true #mandatory
-versionRange = "[40,)" #mandatory
+versionRange = "[43,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
 # Here's another dependency
 [[dependencies.atomlib]]
    modId="minecraft"
-   mandatory=true
-   versionRange="[1.18.2,1.19)"
-   ordering="NONE"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
    side="BOTH"

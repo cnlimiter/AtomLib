@@ -157,13 +157,45 @@ tasks.withType(JavaCompile).configureEach {
 }
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            artifact jar
+        mavenJava(MavenPublication) { publication ->
+            //project.shadow.component(publication)
+            from components.java
+            jarJar.component(publication)
+            version = "${project.version}"
+            artifactId = "${project.archives_base_name}"
+            groupId = "${project.maven_group}"
+            pom {
+                name = 'AtomLib'
+                description = ''
+                url = ''
+                licenses {
+                    license {
+                        name = 'AGPLV3'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'cnlimiter'
+                        name = 'cnlimiter'
+                        email = 'cnlimiter@163.com'
+                    }
+                }
+            }
+
         }
     }
     repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+        if (System.getenv('MAVEN_USERNAME') != null && System.getenv('MAVEN_PASSWORD') != null) {
+            maven {
+                name 'release'
+                url = 'https://maven.nova-committee.cn/releases'
+
+                credentials {
+                    username System.getenv('MAVEN_USERNAME')
+                    password System.getenv('MAVEN_PASSWORD')
+                }
+            }
         }
     }
 }
