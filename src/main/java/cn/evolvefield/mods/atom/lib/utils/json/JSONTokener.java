@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.atom.lib.utils.json;
 
-import org.zeith.hammerlib.util.java.Cast;
+
+import cn.evolvefield.mods.atom.lib.utils.java.Cast;
 
 import java.io.*;
 import java.util.Optional;
