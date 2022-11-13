@@ -1,11 +1,10 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
-modLoader="javafml" #mandatory
-loaderVersion="[40,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-license="GNU AGPL 3.0"
+modLoader = "javafml" #mandatory
+loaderVersion = "[43,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license = "GNU AGPL 3.0"
 [[mods]] #mandatory
 # The modid of the mod
-modId="atomlib" #mandatory
-version="${file.jarVersion}" #mandatory
+modId = "atomlib" #mandatory
+version = "${file.jarVersion}" #mandatory
 displayName = "AtomLib" #mandatory
 #updateJSONURL="http://myurl.me/" #optional
 #displayURL="http://example.com/" #optional
@@ -22,10 +21,4 @@ mandatory = true #mandatory
 versionRange = "[43,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
-# Here's another dependency
-[[dependencies.atomlib]]
-   modId="minecraft"
-mandatory = true
-versionRange = "[1.19.2,)"
-ordering = "NONE"
-   side="BOTH"
+

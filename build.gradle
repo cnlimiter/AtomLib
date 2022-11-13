@@ -1,91 +1,61 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
-    }
+plugins {
+    id 'java'
+    id 'idea'
+    id 'maven-publish'
+
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'maven-publish'
+version = project.minecraft_version + "-" + project.mod_version
+group = project.maven_group
 
-group = 'cn.evolvefield.mods'
-version = '1.19.2-1.0.4'
 
-java {
-    archivesBaseName = 'AtomLib-forge'
-    //toolchain.languageVersion = JavaLanguageVersion.of(17)
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+configurations {
+    library
+    implementation.extendsFrom library
 }
 
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'parchment', version: '2022.10.16-1.19.2'
+    mappings channel: 'parchment', version: "${parchment_mappings}-${minecraft_version}"
 
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
+    if (file("./src/main/resources/META-INF/accesstransformer.cfg").exists()) {
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
     runs {
         client {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'AtomLib'
-
+            property 'forge.enabledGameTestNamespaces', "${mod_id}"
             mods {
-                atomlib {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
         }
-
         server {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'AtomLib'
-
+            property 'forge.enabledGameTestNamespaces', "${mod_id}"
             mods {
-                atomlib {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
         }
-
         gameTestServer {
             workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
-            // The markers can be added/remove as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
             property 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
-
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'AtomLib'
-
+            property 'forge.enabledGameTestNamespaces', "${mod_id}"
             mods {
-                atomlib {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -93,24 +63,11 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            // The markers can be added/removed as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
             property 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'atomlib', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
+            args '--mod', "${mod_id}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
-                atomlib {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -118,55 +75,180 @@ minecraft {
     }
 }
 
-mixin {
-    add sourceSets.main, "atomlib.refmap.json"
-
-    config "atomlib.mixins.json"
+if (file("./src/main/resources/${mod_id}.mixins.json").exists()) {
+    mixin {
+        add sourceSets.main, "${mod_id}.refmap.json"
+        config "${mod_id}.mixins.json"
+    }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+minecraft.runs.all {
+    lazyToken('minecraft_classpath') {
+        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+    }
+}
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+
+        resources {
+            srcDirs = ['src/main/resources', 'src/generated/resources']
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
+}
 repositories {
-
+    maven {
+        url 'https://maven.nova-committee.cn/releases'
+    }
+    flatDir { dirs 'libraries/all' }
+    flatDir { dirs 'libraries/classpathOnly' }
+    flatDir { dirs 'libraries/runtimeOnly' }
+    mavenCentral()
 }
 
 dependencies {
-
-    minecraft 'net.minecraftforge:forge:1.19.2-43.1.43'
+    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    def libraries = file("libs");
+    if (!libraries.isDirectory()) libraries.mkdirs()
+
+    def libDir = new File(libraries, "all");
+    if (libDir.isDirectory()) {
+        libDir.eachFile { file ->
+            def splitPos = file.name.lastIndexOf("-")
+            def modartifact = file.name.substring(0, splitPos)
+            def modversion = file.name.substring(splitPos + 1, file.name.length() - 4)
+            dependencies {
+                implementation fg.deobf(project.dependencies.create("_all:$modartifact:$modversion") {
+                    transitive = false
+                })
+            }
+        }
+    } else libDir.mkdir();
+
+    libDir = new File(libraries, "classpathOnly");
+    if (libDir.isDirectory()) {
+        libDir.eachFile { file ->
+            def splitPos = file.name.lastIndexOf("-")
+            def modartifact = file.name.substring(0, splitPos)
+            def modversion = file.name.substring(splitPos + 1, file.name.length() - 4)
+            dependencies {
+                compileClasspath fg.deobf(project.dependencies.create("_classpath:$modartifact:$modversion") {
+                    transitive = false
+                })
+            }
+        }
+    } else libDir.mkdir();
+
+    libDir = new File(libraries, "runtimeOnly");
+    if (libDir.isDirectory()) {
+        libDir.eachFile { file ->
+            def splitPos = file.name.lastIndexOf("-")
+            def modartifact = file.name.substring(0, splitPos)
+            def modversion = file.name.substring(splitPos + 1, file.name.length() - 4)
+            dependencies {
+                runtimeClasspath fg.deobf(project.dependencies.create("_runtime:$modartifact:$modversion") {
+                    transitive = false
+                })
+            }
+        }
+    } else libDir.mkdir();
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.release.set(JavaLanguageVersion.of("${project.java_version}").asInt())
+
+    javaToolchains {
+        compilerFor {
+            languageVersion.set(JavaLanguageVersion.of("${project.java_version}"))
+        }
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion("${project.java_version}")
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of("${project.java_version}")
+    }
+    withSourcesJar()
+    archivesBaseName = project.archives_base_name
+}
+
+jarJar.enable()
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives tasks.jarJar
+}
+
+tasks.jarJar.configure {
+    classifier ''
+}
+
+reobf {
+    jarJar {}
 }
 
 jar {
-    finalizedBy 'reobfJar'
-    from file("LICENSE")
+    classifier ''
+    from sourceSets.main.output
+}
+
+jar.finalizedBy('reobfJar')
+
+tasks.jarJar.finalizedBy('reobfJarJar')
+
+tasks.withType(Jar) {
+    from file('README.md')
+    from file('LICENSE')
+
     manifest {
         attributes([
-                "Specification-Title"     : "atomlib",
-                "Specification-Vendor"    : "cnlimiter",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "cnlimiter",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'Specification-Title'     : "${project.name}",
+                'Specification-Vendor'    : 'cnlimiter',
+                'Specification-Version'   : "${project.version}",
+                'Implementation-Title'    : "${mod_name}",
+                'Implementation-Version'  : "${project.version}",
+                'Implementation-Vendor'   : 'cnlimiter',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    if (file("./src/main/resources/${mod_id}.mixins.json").exists()) {
+        manifest {
+            attributes 'MixinConfigs': "${mod_id}.mixins.json"
+        }
+    }
 }
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
+
 publishing {
     publications {
         mavenJava(MavenPublication) { publication ->
-            //project.shadow.component(publication)
             from components.java
             jarJar.component(publication)
             version = "${project.version}"
             artifactId = "${project.archives_base_name}"
             groupId = "${project.maven_group}"
             pom {
-                name = 'AtomLib'
-                description = ''
+                name = "${project.mod_name}"
+                description = 'Minecraft develop lib.'
                 url = ''
                 licenses {
                     license {
