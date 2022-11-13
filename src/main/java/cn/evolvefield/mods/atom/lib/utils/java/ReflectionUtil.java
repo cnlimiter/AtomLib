@@ -20,6 +20,7 @@ import java.util.function.Predicate;
  * Date: 2022/11/13 2:25
  * Description:
  */
+@SuppressWarnings("unused")
 public class ReflectionUtil {
     private static Field modifiersField;
     private static Object reflectionFactory;
@@ -91,8 +92,7 @@ public class ReflectionUtil {
      * Examples: For List< String> returns [Type(String)]
      */
     public static java.lang.reflect.Type[] getTypeArgs(java.lang.reflect.Type type) {
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
+        if (type instanceof ParameterizedType pt) {
             return pt.getActualTypeArguments();
         }
         return new java.lang.reflect.Type[0];
@@ -125,7 +125,7 @@ public class ReflectionUtil {
         Class<?> parentClass = startClass.getSuperclass();
 
         if (parentClass != null &&
-                (exclusiveParent == null || !(parentClass.equals(exclusiveParent)))) {
+                (!(parentClass.equals(exclusiveParent)))) {
             List<Field> parentClassFields =
                     (List<Field>) getFieldsUpTo(parentClass, exclusiveParent);
             currentClassFields.addAll(parentClassFields);
@@ -186,7 +186,7 @@ public class ReflectionUtil {
         try {
             field.setAccessible(true);
             return Cast.optionally(field.get(instance), targetType);
-        } catch (Throwable err) {
+        } catch (Throwable ignored) {
         }
         return Optional.empty();
     }

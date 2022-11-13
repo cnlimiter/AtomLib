@@ -11,7 +11,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Project: atomlib
  * Author: cnlimiter
  * Date: 2022/11/13 2:17
- * Description:
+ * Description:自动注册
  */
 
 @Retention(RUNTIME)

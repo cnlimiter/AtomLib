@@ -33,7 +33,7 @@ public class ConfigBaseHandler {
 
     public static void init(Set<? extends AbstractModConfig> configs) {
         configs.forEach(AbstractModConfig::init);
-        LOGGER.info("AES Config init!");
+        LOGGER.info("AL Config init!");
     }
 
     public static void get(Set<? extends AbstractModConfig> configs) {
@@ -64,12 +64,12 @@ public class ConfigBaseHandler {
     @SubscribeEvent
     public void onLoading(ModConfigEvent.Loading event) {
         get(CONFIGS);
-        LOGGER.info("AES Config loaded!");
+        LOGGER.info("AL Config loaded!");
     }
 
     @SubscribeEvent
     public void onReloading(ModConfigEvent.Reloading event) {
         get(CONFIGS);
-        LOGGER.info("AES Config Reloaded!");
+        LOGGER.info("AL Config Reloaded!");
     }
 }
