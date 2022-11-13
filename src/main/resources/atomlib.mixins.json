@@ -6,7 +6,8 @@
   "refmap": "atomlib.refmap.json",
   "mixins": [
     "PackRepositoryMixin",
-    "RegistryManagerAccessor"
+    "RegistryManagerAccessor",
+    "ServerPlayerGameModeMixin"
   ],
   "client": [
   ],

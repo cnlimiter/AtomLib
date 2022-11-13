@@ -38,7 +38,7 @@ public class PackRepositoryMixin {
             method = "reload",
             at = @At("TAIL")
     )
-    public void reloadHook_AtomLib(CallbackInfo ci) {
+    public void reloadHook_AL(CallbackInfo ci) {
         if (selected instanceof ImmutableList)
             selected = new ArrayList<>(selected);
         if (available instanceof ImmutableMap)
