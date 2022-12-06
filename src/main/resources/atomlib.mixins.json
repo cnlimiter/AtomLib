@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "cn.evolvefield.mods.atom.lib.init.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "atomlib.refmap.json",
   "mixins": [
     "PackRepositoryMixin",
